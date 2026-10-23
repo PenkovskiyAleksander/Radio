@@ -1,6 +1,21 @@
 public class Radio {
     private int currentStation;
     private int currentVolume;
+    private int stationsCount;
+
+    // Конструктор по умолчанию (10 станций)
+    public Radio() {
+        this(10);
+    }
+
+    // Конструктор с параметром
+    public Radio(int stationsCount) {
+        if (stationsCount > 0) {
+            this.stationsCount = stationsCount;
+        } else {
+            this.stationsCount = 10; // Защита от некорректного ввода
+        }
+    }
 
     public int getCurrentStation() {
         return currentStation;
@@ -11,13 +26,15 @@ public class Radio {
     }
 
     public void setCurrentStation(int station) {
-        if (station >= 0 && station <= 9) {
+        // Номер станции от 0 до stationsCount - 1
+        if (station >= 0 && station < stationsCount) {
             this.currentStation = station;
         }
     }
 
     public void next() {
-        if (currentStation == 9) {
+        // Если текущая максимальная (stationsCount - 1), то переключаем на 0
+        if (currentStation == stationsCount - 1) {
             currentStation = 0;
         } else {
             currentStation++;
@@ -25,8 +42,9 @@ public class Radio {
     }
 
     public void prev() {
+        // Если текущая 0, то переключаем на максимальную (stationsCount - 1)
         if (currentStation == 0) {
-            currentStation = 9;
+            currentStation = stationsCount - 1;
         } else {
             currentStation--;
         }
